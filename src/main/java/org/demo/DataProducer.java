@@ -1,16 +1,11 @@
 package org.demo;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletionStage;
-import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -20,7 +15,6 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.demo.model.parent.Parent;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
-import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow.Strategy;
 
@@ -31,10 +25,15 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.quarkus.runtime.StartupEvent;
-import io.smallrye.common.annotation.Blocking;
 import io.smallrye.reactive.messaging.kafka.Record;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @ApplicationScoped
+@Getter
+@Setter
+@NoArgsConstructor
 public class DataProducer {
     
     @Inject
@@ -76,13 +75,5 @@ public class DataProducer {
         byte[] encoded = is.readAllBytes();
         String escaped = StringEscapeUtils.escapeJson(new String(encoded, encoding));
         return escaped;
-    }
-
-    @Incoming("parent-in")
-    @Blocking
-    public void receive(Record<String, Parent> data) {
-        
-        System.out.println("record value: " + data.value().toString());
-    }
-    
+    }    
 }
