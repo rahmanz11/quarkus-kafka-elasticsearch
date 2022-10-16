@@ -1,12 +1,17 @@
 
-package org.demo.model;
+package org.demo.model.parent;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.annotation.processing.Generated;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.ALWAYS)
 @JsonPropertyOrder({
     "id",
     "nodeId",
@@ -33,6 +38,8 @@ public class NodeInstance {
     private String triggerTime;
     @JsonProperty("leaveTime")
     private String leaveTime;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("id")
     public String getId() {
@@ -104,6 +111,16 @@ public class NodeInstance {
         this.leaveTime = leaveTime;
     }
 
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -136,6 +153,10 @@ public class NodeInstance {
         sb.append('=');
         sb.append(((this.leaveTime == null)?"<null>":this.leaveTime));
         sb.append(',');
+        sb.append("additionalProperties");
+        sb.append('=');
+        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
+        sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
@@ -151,6 +172,7 @@ public class NodeInstance {
         result = ((result* 31)+((this.leaveTime == null)? 0 :this.leaveTime.hashCode()));
         result = ((result* 31)+((this.nodeDefinitionId == null)? 0 :this.nodeDefinitionId.hashCode()));
         result = ((result* 31)+((this.id == null)? 0 :this.id.hashCode()));
+        result = ((result* 31)+((this.additionalProperties == null)? 0 :this.additionalProperties.hashCode()));
         result = ((result* 31)+((this.nodeType == null)? 0 :this.nodeType.hashCode()));
         result = ((result* 31)+((this.triggerTime == null)? 0 :this.triggerTime.hashCode()));
         result = ((result* 31)+((this.nodeId == null)? 0 :this.nodeId.hashCode()));
@@ -166,7 +188,7 @@ public class NodeInstance {
             return false;
         }
         NodeInstance rhs = ((NodeInstance) other);
-        return ((((((((this.nodeName == rhs.nodeName)||((this.nodeName!= null)&&this.nodeName.equals(rhs.nodeName)))&&((this.leaveTime == rhs.leaveTime)||((this.leaveTime!= null)&&this.leaveTime.equals(rhs.leaveTime))))&&((this.nodeDefinitionId == rhs.nodeDefinitionId)||((this.nodeDefinitionId!= null)&&this.nodeDefinitionId.equals(rhs.nodeDefinitionId))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.nodeType == rhs.nodeType)||((this.nodeType!= null)&&this.nodeType.equals(rhs.nodeType))))&&((this.triggerTime == rhs.triggerTime)||((this.triggerTime!= null)&&this.triggerTime.equals(rhs.triggerTime))))&&((this.nodeId == rhs.nodeId)||((this.nodeId!= null)&&this.nodeId.equals(rhs.nodeId))));
+        return (((((((((this.nodeName == rhs.nodeName)||((this.nodeName!= null)&&this.nodeName.equals(rhs.nodeName)))&&((this.leaveTime == rhs.leaveTime)||((this.leaveTime!= null)&&this.leaveTime.equals(rhs.leaveTime))))&&((this.nodeDefinitionId == rhs.nodeDefinitionId)||((this.nodeDefinitionId!= null)&&this.nodeDefinitionId.equals(rhs.nodeDefinitionId))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.additionalProperties == rhs.additionalProperties)||((this.additionalProperties!= null)&&this.additionalProperties.equals(rhs.additionalProperties))))&&((this.nodeType == rhs.nodeType)||((this.nodeType!= null)&&this.nodeType.equals(rhs.nodeType))))&&((this.triggerTime == rhs.triggerTime)||((this.triggerTime!= null)&&this.triggerTime.equals(rhs.triggerTime))))&&((this.nodeId == rhs.nodeId)||((this.nodeId!= null)&&this.nodeId.equals(rhs.nodeId))));
     }
 
 }

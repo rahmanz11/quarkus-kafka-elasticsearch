@@ -1,12 +1,17 @@
 
-package org.demo.model;
+package org.demo.model.parent;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.annotation.processing.Generated;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.ALWAYS)
 @JsonPropertyOrder({
     "id",
     "source",
@@ -20,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "kogitousertaskist"
 })
 @Generated("jsonschema2pojo")
-public class ParentEvent {
+public class Parent {
 
     @JsonProperty("id")
     private String id;
@@ -42,6 +47,8 @@ public class ParentEvent {
     private String kogitoaddons;
     @JsonProperty("kogitousertaskist")
     private String kogitousertaskist;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("id")
     public String getId() {
@@ -143,10 +150,20 @@ public class ParentEvent {
         this.kogitousertaskist = kogitousertaskist;
     }
 
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(ParentEvent.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Parent.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
@@ -187,6 +204,10 @@ public class ParentEvent {
         sb.append('=');
         sb.append(((this.kogitousertaskist == null)?"<null>":this.kogitousertaskist));
         sb.append(',');
+        sb.append("additionalProperties");
+        sb.append('=');
+        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
+        sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
@@ -204,6 +225,7 @@ public class ParentEvent {
         result = ((result* 31)+((this.id == null)? 0 :this.id.hashCode()));
         result = ((result* 31)+((this.source == null)? 0 :this.source.hashCode()));
         result = ((result* 31)+((this.time == null)? 0 :this.time.hashCode()));
+        result = ((result* 31)+((this.additionalProperties == null)? 0 :this.additionalProperties.hashCode()));
         result = ((result* 31)+((this.type == null)? 0 :this.type.hashCode()));
         result = ((result* 31)+((this.kogitoprocinstanceid == null)? 0 :this.kogitoprocinstanceid.hashCode()));
         result = ((result* 31)+((this.kogitoprocid == null)? 0 :this.kogitoprocid.hashCode()));
@@ -216,11 +238,11 @@ public class ParentEvent {
         if (other == this) {
             return true;
         }
-        if ((other instanceof ParentEvent) == false) {
+        if ((other instanceof Parent) == false) {
             return false;
         }
-        ParentEvent rhs = ((ParentEvent) other);
-        return (((((((((((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)))&&((this.kogitousertaskist == rhs.kogitousertaskist)||((this.kogitousertaskist!= null)&&this.kogitousertaskist.equals(rhs.kogitousertaskist))))&&((this.specversion == rhs.specversion)||((this.specversion!= null)&&this.specversion.equals(rhs.specversion))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.source == rhs.source)||((this.source!= null)&&this.source.equals(rhs.source))))&&((this.time == rhs.time)||((this.time!= null)&&this.time.equals(rhs.time))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.kogitoprocinstanceid == rhs.kogitoprocinstanceid)||((this.kogitoprocinstanceid!= null)&&this.kogitoprocinstanceid.equals(rhs.kogitoprocinstanceid))))&&((this.kogitoprocid == rhs.kogitoprocid)||((this.kogitoprocid!= null)&&this.kogitoprocid.equals(rhs.kogitoprocid))))&&((this.kogitoaddons == rhs.kogitoaddons)||((this.kogitoaddons!= null)&&this.kogitoaddons.equals(rhs.kogitoaddons))));
+        Parent rhs = ((Parent) other);
+        return ((((((((((((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)))&&((this.kogitousertaskist == rhs.kogitousertaskist)||((this.kogitousertaskist!= null)&&this.kogitousertaskist.equals(rhs.kogitousertaskist))))&&((this.specversion == rhs.specversion)||((this.specversion!= null)&&this.specversion.equals(rhs.specversion))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.source == rhs.source)||((this.source!= null)&&this.source.equals(rhs.source))))&&((this.time == rhs.time)||((this.time!= null)&&this.time.equals(rhs.time))))&&((this.additionalProperties == rhs.additionalProperties)||((this.additionalProperties!= null)&&this.additionalProperties.equals(rhs.additionalProperties))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.kogitoprocinstanceid == rhs.kogitoprocinstanceid)||((this.kogitoprocinstanceid!= null)&&this.kogitoprocinstanceid.equals(rhs.kogitoprocinstanceid))))&&((this.kogitoprocid == rhs.kogitoprocid)||((this.kogitoprocid!= null)&&this.kogitoprocid.equals(rhs.kogitoprocid))))&&((this.kogitoaddons == rhs.kogitoaddons)||((this.kogitoaddons!= null)&&this.kogitoaddons.equals(rhs.kogitoaddons))));
     }
 
 }

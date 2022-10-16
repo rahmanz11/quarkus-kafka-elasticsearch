@@ -1,12 +1,17 @@
 
-package org.demo.model;
+package org.demo.model.parent;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.annotation.processing.Generated;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.ALWAYS)
 @JsonPropertyOrder({
     "firstName",
     "lastName",
@@ -27,6 +32,8 @@ public class Traveller {
     private String nationality;
     @JsonProperty("address")
     private Address address;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("firstName")
     public String getFirstName() {
@@ -78,6 +85,16 @@ public class Traveller {
         this.address = address;
     }
 
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -102,6 +119,10 @@ public class Traveller {
         sb.append('=');
         sb.append(((this.address == null)?"<null>":this.address));
         sb.append(',');
+        sb.append("additionalProperties");
+        sb.append('=');
+        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
+        sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
@@ -117,6 +138,7 @@ public class Traveller {
         result = ((result* 31)+((this.lastName == null)? 0 :this.lastName.hashCode()));
         result = ((result* 31)+((this.address == null)? 0 :this.address.hashCode()));
         result = ((result* 31)+((this.nationality == null)? 0 :this.nationality.hashCode()));
+        result = ((result* 31)+((this.additionalProperties == null)? 0 :this.additionalProperties.hashCode()));
         result = ((result* 31)+((this.email == null)? 0 :this.email.hashCode()));
         return result;
     }
@@ -130,7 +152,7 @@ public class Traveller {
             return false;
         }
         Traveller rhs = ((Traveller) other);
-        return ((((((this.firstName == rhs.firstName)||((this.firstName!= null)&&this.firstName.equals(rhs.firstName)))&&((this.lastName == rhs.lastName)||((this.lastName!= null)&&this.lastName.equals(rhs.lastName))))&&((this.address == rhs.address)||((this.address!= null)&&this.address.equals(rhs.address))))&&((this.nationality == rhs.nationality)||((this.nationality!= null)&&this.nationality.equals(rhs.nationality))))&&((this.email == rhs.email)||((this.email!= null)&&this.email.equals(rhs.email))));
+        return (((((((this.firstName == rhs.firstName)||((this.firstName!= null)&&this.firstName.equals(rhs.firstName)))&&((this.lastName == rhs.lastName)||((this.lastName!= null)&&this.lastName.equals(rhs.lastName))))&&((this.address == rhs.address)||((this.address!= null)&&this.address.equals(rhs.address))))&&((this.nationality == rhs.nationality)||((this.nationality!= null)&&this.nationality.equals(rhs.nationality))))&&((this.additionalProperties == rhs.additionalProperties)||((this.additionalProperties!= null)&&this.additionalProperties.equals(rhs.additionalProperties))))&&((this.email == rhs.email)||((this.email!= null)&&this.email.equals(rhs.email))));
     }
 
 }

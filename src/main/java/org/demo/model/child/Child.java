@@ -1,26 +1,32 @@
 
-package org.demo.model;
+package org.demo.model.child;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.annotation.processing.Generated;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.ALWAYS)
 @JsonPropertyOrder({
     "id",
     "source",
     "type",
-    "startDate",
+    "time",
     "data",
-    "kogitoVariableName",
     "specversion",
     "kogitoprocinstanceid",
     "kogitoprocid",
-    "kogitoaddons"
+    "kogitoaddons",
+    "kogitousertaskiid",
+    "kogitousertaskist"
 })
 @Generated("jsonschema2pojo")
-public class UpdateEvent {
+public class Child {
 
     @JsonProperty("id")
     private String id;
@@ -28,12 +34,10 @@ public class UpdateEvent {
     private String source;
     @JsonProperty("type")
     private String type;
-    @JsonProperty("startDate")
-    private String startDate;
+    @JsonProperty("time")
+    private String time;
     @JsonProperty("data")
     private Data data;
-    @JsonProperty("kogitoVariableName")
-    private String kogitoVariableName;
     @JsonProperty("specversion")
     private String specversion;
     @JsonProperty("kogitoprocinstanceid")
@@ -42,6 +46,12 @@ public class UpdateEvent {
     private String kogitoprocid;
     @JsonProperty("kogitoaddons")
     private String kogitoaddons;
+    @JsonProperty("kogitousertaskiid")
+    private String kogitousertaskiid;
+    @JsonProperty("kogitousertaskist")
+    private String kogitousertaskist;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("id")
     public String getId() {
@@ -73,14 +83,14 @@ public class UpdateEvent {
         this.type = type;
     }
 
-    @JsonProperty("startDate")
-    public String getStartDate() {
-        return startDate;
+    @JsonProperty("time")
+    public String getTime() {
+        return time;
     }
 
-    @JsonProperty("startDate")
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    @JsonProperty("time")
+    public void setTime(String time) {
+        this.time = time;
     }
 
     @JsonProperty("data")
@@ -91,16 +101,6 @@ public class UpdateEvent {
     @JsonProperty("data")
     public void setData(Data data) {
         this.data = data;
-    }
-
-    @JsonProperty("kogitoVariableName")
-    public String getKogitoVariableName() {
-        return kogitoVariableName;
-    }
-
-    @JsonProperty("kogitoVariableName")
-    public void setKogitoVariableName(String kogitoVariableName) {
-        this.kogitoVariableName = kogitoVariableName;
     }
 
     @JsonProperty("specversion")
@@ -143,10 +143,40 @@ public class UpdateEvent {
         this.kogitoaddons = kogitoaddons;
     }
 
+    @JsonProperty("kogitousertaskiid")
+    public String getKogitousertaskiid() {
+        return kogitousertaskiid;
+    }
+
+    @JsonProperty("kogitousertaskiid")
+    public void setKogitousertaskiid(String kogitousertaskiid) {
+        this.kogitousertaskiid = kogitousertaskiid;
+    }
+
+    @JsonProperty("kogitousertaskist")
+    public String getKogitousertaskist() {
+        return kogitousertaskist;
+    }
+
+    @JsonProperty("kogitousertaskist")
+    public void setKogitousertaskist(String kogitousertaskist) {
+        this.kogitousertaskist = kogitousertaskist;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(UpdateEvent.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Child.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
@@ -159,17 +189,13 @@ public class UpdateEvent {
         sb.append('=');
         sb.append(((this.type == null)?"<null>":this.type));
         sb.append(',');
-        sb.append("startDate");
+        sb.append("time");
         sb.append('=');
-        sb.append(((this.startDate == null)?"<null>":this.startDate));
+        sb.append(((this.time == null)?"<null>":this.time));
         sb.append(',');
         sb.append("data");
         sb.append('=');
         sb.append(((this.data == null)?"<null>":this.data));
-        sb.append(',');
-        sb.append("kogitoVariableName");
-        sb.append('=');
-        sb.append(((this.kogitoVariableName == null)?"<null>":this.kogitoVariableName));
         sb.append(',');
         sb.append("specversion");
         sb.append('=');
@@ -187,6 +213,18 @@ public class UpdateEvent {
         sb.append('=');
         sb.append(((this.kogitoaddons == null)?"<null>":this.kogitoaddons));
         sb.append(',');
+        sb.append("kogitousertaskiid");
+        sb.append('=');
+        sb.append(((this.kogitousertaskiid == null)?"<null>":this.kogitousertaskiid));
+        sb.append(',');
+        sb.append("kogitousertaskist");
+        sb.append('=');
+        sb.append(((this.kogitousertaskist == null)?"<null>":this.kogitousertaskist));
+        sb.append(',');
+        sb.append("additionalProperties");
+        sb.append('=');
+        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
+        sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
@@ -199,15 +237,17 @@ public class UpdateEvent {
     public int hashCode() {
         int result = 1;
         result = ((result* 31)+((this.data == null)? 0 :this.data.hashCode()));
-        result = ((result* 31)+((this.kogitoVariableName == null)? 0 :this.kogitoVariableName.hashCode()));
-        result = ((result* 31)+((this.specversion == null)? 0 :this.specversion.hashCode()));
-        result = ((result* 31)+((this.id == null)? 0 :this.id.hashCode()));
         result = ((result* 31)+((this.source == null)? 0 :this.source.hashCode()));
         result = ((result* 31)+((this.type == null)? 0 :this.type.hashCode()));
-        result = ((result* 31)+((this.kogitoprocinstanceid == null)? 0 :this.kogitoprocinstanceid.hashCode()));
-        result = ((result* 31)+((this.startDate == null)? 0 :this.startDate.hashCode()));
         result = ((result* 31)+((this.kogitoprocid == null)? 0 :this.kogitoprocid.hashCode()));
         result = ((result* 31)+((this.kogitoaddons == null)? 0 :this.kogitoaddons.hashCode()));
+        result = ((result* 31)+((this.kogitousertaskist == null)? 0 :this.kogitousertaskist.hashCode()));
+        result = ((result* 31)+((this.specversion == null)? 0 :this.specversion.hashCode()));
+        result = ((result* 31)+((this.id == null)? 0 :this.id.hashCode()));
+        result = ((result* 31)+((this.time == null)? 0 :this.time.hashCode()));
+        result = ((result* 31)+((this.additionalProperties == null)? 0 :this.additionalProperties.hashCode()));
+        result = ((result* 31)+((this.kogitoprocinstanceid == null)? 0 :this.kogitoprocinstanceid.hashCode()));
+        result = ((result* 31)+((this.kogitousertaskiid == null)? 0 :this.kogitousertaskiid.hashCode()));
         return result;
     }
 
@@ -216,11 +256,11 @@ public class UpdateEvent {
         if (other == this) {
             return true;
         }
-        if ((other instanceof UpdateEvent) == false) {
+        if ((other instanceof Child) == false) {
             return false;
         }
-        UpdateEvent rhs = ((UpdateEvent) other);
-        return (((((((((((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)))&&((this.kogitoVariableName == rhs.kogitoVariableName)||((this.kogitoVariableName!= null)&&this.kogitoVariableName.equals(rhs.kogitoVariableName))))&&((this.specversion == rhs.specversion)||((this.specversion!= null)&&this.specversion.equals(rhs.specversion))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.source == rhs.source)||((this.source!= null)&&this.source.equals(rhs.source))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.kogitoprocinstanceid == rhs.kogitoprocinstanceid)||((this.kogitoprocinstanceid!= null)&&this.kogitoprocinstanceid.equals(rhs.kogitoprocinstanceid))))&&((this.startDate == rhs.startDate)||((this.startDate!= null)&&this.startDate.equals(rhs.startDate))))&&((this.kogitoprocid == rhs.kogitoprocid)||((this.kogitoprocid!= null)&&this.kogitoprocid.equals(rhs.kogitoprocid))))&&((this.kogitoaddons == rhs.kogitoaddons)||((this.kogitoaddons!= null)&&this.kogitoaddons.equals(rhs.kogitoaddons))));
+        Child rhs = ((Child) other);
+        return (((((((((((((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)))&&((this.source == rhs.source)||((this.source!= null)&&this.source.equals(rhs.source))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.kogitoprocid == rhs.kogitoprocid)||((this.kogitoprocid!= null)&&this.kogitoprocid.equals(rhs.kogitoprocid))))&&((this.kogitoaddons == rhs.kogitoaddons)||((this.kogitoaddons!= null)&&this.kogitoaddons.equals(rhs.kogitoaddons))))&&((this.kogitousertaskist == rhs.kogitousertaskist)||((this.kogitousertaskist!= null)&&this.kogitousertaskist.equals(rhs.kogitousertaskist))))&&((this.specversion == rhs.specversion)||((this.specversion!= null)&&this.specversion.equals(rhs.specversion))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.time == rhs.time)||((this.time!= null)&&this.time.equals(rhs.time))))&&((this.additionalProperties == rhs.additionalProperties)||((this.additionalProperties!= null)&&this.additionalProperties.equals(rhs.additionalProperties))))&&((this.kogitoprocinstanceid == rhs.kogitoprocinstanceid)||((this.kogitoprocinstanceid!= null)&&this.kogitoprocinstanceid.equals(rhs.kogitoprocinstanceid))))&&((this.kogitousertaskiid == rhs.kogitousertaskiid)||((this.kogitousertaskiid!= null)&&this.kogitousertaskiid.equals(rhs.kogitousertaskiid))));
     }
 
 }

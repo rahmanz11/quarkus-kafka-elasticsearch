@@ -1,12 +1,17 @@
 
-package org.demo.model;
+package org.demo.model.update;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.annotation.processing.Generated;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.ALWAYS)
 @JsonPropertyOrder({
     "variableName",
     "variableValue",
@@ -48,6 +53,8 @@ public class Data {
     private String processId;
     @JsonProperty("rootProcessId")
     private Object rootProcessId;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("variableName")
     public String getVariableName() {
@@ -169,6 +176,16 @@ public class Data {
         this.rootProcessId = rootProcessId;
     }
 
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -221,6 +238,10 @@ public class Data {
         sb.append('=');
         sb.append(((this.rootProcessId == null)?"<null>":this.rootProcessId));
         sb.append(',');
+        sb.append("additionalProperties");
+        sb.append('=');
+        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
+        sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
@@ -243,6 +264,7 @@ public class Data {
         result = ((result* 31)+((this.variablePreviousValue == null)? 0 :this.variablePreviousValue.hashCode()));
         result = ((result* 31)+((this.changedByUser == null)? 0 :this.changedByUser.hashCode()));
         result = ((result* 31)+((this.rootProcessInstanceId == null)? 0 :this.rootProcessInstanceId.hashCode()));
+        result = ((result* 31)+((this.additionalProperties == null)? 0 :this.additionalProperties.hashCode()));
         result = ((result* 31)+((this.changedByNodeType == null)? 0 :this.changedByNodeType.hashCode()));
         return result;
     }
@@ -256,7 +278,7 @@ public class Data {
             return false;
         }
         Data rhs = ((Data) other);
-        return (((((((((((((this.processInstanceId == rhs.processInstanceId)||((this.processInstanceId!= null)&&this.processInstanceId.equals(rhs.processInstanceId)))&&((this.variableName == rhs.variableName)||((this.variableName!= null)&&this.variableName.equals(rhs.variableName))))&&((this.changedByNodeId == rhs.changedByNodeId)||((this.changedByNodeId!= null)&&this.changedByNodeId.equals(rhs.changedByNodeId))))&&((this.variableValue == rhs.variableValue)||((this.variableValue!= null)&&this.variableValue.equals(rhs.variableValue))))&&((this.rootProcessId == rhs.rootProcessId)||((this.rootProcessId!= null)&&this.rootProcessId.equals(rhs.rootProcessId))))&&((this.changedByNodeName == rhs.changedByNodeName)||((this.changedByNodeName!= null)&&this.changedByNodeName.equals(rhs.changedByNodeName))))&&((this.processId == rhs.processId)||((this.processId!= null)&&this.processId.equals(rhs.processId))))&&((this.changeDate == rhs.changeDate)||((this.changeDate!= null)&&this.changeDate.equals(rhs.changeDate))))&&((this.variablePreviousValue == rhs.variablePreviousValue)||((this.variablePreviousValue!= null)&&this.variablePreviousValue.equals(rhs.variablePreviousValue))))&&((this.changedByUser == rhs.changedByUser)||((this.changedByUser!= null)&&this.changedByUser.equals(rhs.changedByUser))))&&((this.rootProcessInstanceId == rhs.rootProcessInstanceId)||((this.rootProcessInstanceId!= null)&&this.rootProcessInstanceId.equals(rhs.rootProcessInstanceId))))&&((this.changedByNodeType == rhs.changedByNodeType)||((this.changedByNodeType!= null)&&this.changedByNodeType.equals(rhs.changedByNodeType))));
+        return ((((((((((((((this.processInstanceId == rhs.processInstanceId)||((this.processInstanceId!= null)&&this.processInstanceId.equals(rhs.processInstanceId)))&&((this.variableName == rhs.variableName)||((this.variableName!= null)&&this.variableName.equals(rhs.variableName))))&&((this.changedByNodeId == rhs.changedByNodeId)||((this.changedByNodeId!= null)&&this.changedByNodeId.equals(rhs.changedByNodeId))))&&((this.variableValue == rhs.variableValue)||((this.variableValue!= null)&&this.variableValue.equals(rhs.variableValue))))&&((this.rootProcessId == rhs.rootProcessId)||((this.rootProcessId!= null)&&this.rootProcessId.equals(rhs.rootProcessId))))&&((this.changedByNodeName == rhs.changedByNodeName)||((this.changedByNodeName!= null)&&this.changedByNodeName.equals(rhs.changedByNodeName))))&&((this.processId == rhs.processId)||((this.processId!= null)&&this.processId.equals(rhs.processId))))&&((this.changeDate == rhs.changeDate)||((this.changeDate!= null)&&this.changeDate.equals(rhs.changeDate))))&&((this.variablePreviousValue == rhs.variablePreviousValue)||((this.variablePreviousValue!= null)&&this.variablePreviousValue.equals(rhs.variablePreviousValue))))&&((this.changedByUser == rhs.changedByUser)||((this.changedByUser!= null)&&this.changedByUser.equals(rhs.changedByUser))))&&((this.rootProcessInstanceId == rhs.rootProcessInstanceId)||((this.rootProcessInstanceId!= null)&&this.rootProcessInstanceId.equals(rhs.rootProcessInstanceId))))&&((this.additionalProperties == rhs.additionalProperties)||((this.additionalProperties!= null)&&this.additionalProperties.equals(rhs.additionalProperties))))&&((this.changedByNodeType == rhs.changedByNodeType)||((this.changedByNodeType!= null)&&this.changedByNodeType.equals(rhs.changedByNodeType))));
     }
 
 }

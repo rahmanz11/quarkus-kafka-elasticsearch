@@ -1,12 +1,17 @@
 
-package org.demo.model;
+package org.demo.model.parent;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.annotation.processing.Generated;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.ALWAYS)
 @JsonPropertyOrder({
     "deal",
     "traveller",
@@ -21,6 +26,8 @@ public class Variables {
     private Traveller traveller;
     @JsonProperty("review")
     private String review;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("deal")
     public String getDeal() {
@@ -52,6 +59,16 @@ public class Variables {
         this.review = review;
     }
 
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -68,6 +85,10 @@ public class Variables {
         sb.append('=');
         sb.append(((this.review == null)?"<null>":this.review));
         sb.append(',');
+        sb.append("additionalProperties");
+        sb.append('=');
+        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
+        sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
@@ -80,6 +101,7 @@ public class Variables {
     public int hashCode() {
         int result = 1;
         result = ((result* 31)+((this.deal == null)? 0 :this.deal.hashCode()));
+        result = ((result* 31)+((this.additionalProperties == null)? 0 :this.additionalProperties.hashCode()));
         result = ((result* 31)+((this.traveller == null)? 0 :this.traveller.hashCode()));
         result = ((result* 31)+((this.review == null)? 0 :this.review.hashCode()));
         return result;
@@ -94,7 +116,7 @@ public class Variables {
             return false;
         }
         Variables rhs = ((Variables) other);
-        return ((((this.deal == rhs.deal)||((this.deal!= null)&&this.deal.equals(rhs.deal)))&&((this.traveller == rhs.traveller)||((this.traveller!= null)&&this.traveller.equals(rhs.traveller))))&&((this.review == rhs.review)||((this.review!= null)&&this.review.equals(rhs.review))));
+        return (((((this.deal == rhs.deal)||((this.deal!= null)&&this.deal.equals(rhs.deal)))&&((this.additionalProperties == rhs.additionalProperties)||((this.additionalProperties!= null)&&this.additionalProperties.equals(rhs.additionalProperties))))&&((this.traveller == rhs.traveller)||((this.traveller!= null)&&this.traveller.equals(rhs.traveller))))&&((this.review == rhs.review)||((this.review!= null)&&this.review.equals(rhs.review))));
     }
 
 }

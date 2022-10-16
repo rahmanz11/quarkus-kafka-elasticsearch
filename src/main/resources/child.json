@@ -1,0 +1,58 @@
+[
+    {
+        "id": "6bc2db64-ec80-46f3-98c6-14f11f7af264",
+        "source": "/dealreviews",
+        "type": "UserTaskInstanceEvent",
+        "time": "2022-10-09T05:41:51.534Z",
+        "data": {
+            "id": "96ac5b33-e2c3-4bec-8c7a-7d8ba323251c",
+            "taskName": "string",
+            "taskDescription": null,
+            "taskPriority": null,
+            "referenceName": "Review the deal",
+            "startDate": "2022-10-06T09:05:59.423Z",
+            "completeDate": null,
+            "state": "Ready",
+            "actualOwner": null,
+            "potentialUsers": [
+                "Brent"
+            ],
+            "potentialGroups": [],
+            "excludedUsers": [],
+            "adminUsers": [],
+            "adminGroups": [],
+            "inputs": {
+                "deal": "Tenetur reiciendis eum fugit ipsam cum reiciendis minus praesentium debitis. A repellat autem nihil delectus sed maiores quos blanditiis. Officiis necessitatibus architecto dolores nobis tenetur.",
+                "TaskName": "string",
+                "NodeName": "Review the deal",
+                "Skippable": "true",
+                "ActorId": "Brent",
+                "traveller": {
+                    "firstName": "Toni",
+                    "lastName": "Heaney",
+                    "email": "Dereck.Wunsch74@gmail.com",
+                    "nationality": "AE",
+                    "address": {
+                        "street": "Ferry Valley",
+                        "city": "Nashville-Davidson",
+                        "zipCode": "05535",
+                        "country": "Cambridgeshire"
+                    }
+                }
+            },
+            "outputs": {},
+            "comments": [],
+            "attachments": [],
+            "processInstanceId": "d8e9804f-f37d-4485-8a71-2d787adee5be",
+            "rootProcessInstanceId": null,
+            "processId": "dealreviews",
+            "rootProcessId": null
+        },
+        "specversion": "1.0",
+        "kogitoprocinstanceid": "d8e9804f-f37d-4485-8a71-2d787adee5be",
+        "kogitoprocid": "dealreviews",
+        "kogitoaddons": "infinispan-persistence",
+        "kogitousertaskiid": "96ac5b33-e2c3-4bec-8c7a-7d8ba323251c",
+        "kogitousertaskist": "Ready"
+    }
+]

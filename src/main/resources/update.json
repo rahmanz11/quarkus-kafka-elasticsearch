@@ -1,0 +1,27 @@
+[
+    {
+        "id": "90e99580-bc1a-4219-bf8b-9a61a95d21b4",
+        "source": "/dealreviews",
+        "type": "VariableInstanceEvent",
+        "startDate": "2022-10-09T15:45:07.220Z",
+        "data": {
+            "variableName": "deal",
+            "variableValue": "Quibusdam qui pariatur perferendis ullam voluptates provident cumque iusto laboriosam. Hic in minima exercitationem illum. Maiores nihil consectetur ad dicta autem fugiat voluptatem. Aperiam placeat sint dolore maxime consequatur eveniet nihil laborum saepe. Debitis alias ipsum suscipit odit possimus. Occaecati impedit repellendus debitis molestiae nemo incidunt ullam.",
+            "variablePreviousValue": null,
+            "changeDate": "2022-09-25T13:29:15.632Z",
+            "changedByNodeId": null,
+            "changedByNodeName": null,
+            "changedByNodeType": null,
+            "changedByUser": null,
+            "processInstanceId": "d8e9804f-f37d-4485-8a71-2d787adee5be",
+            "rootProcessInstanceId": null,
+            "processId": "dealreviews",
+            "rootProcessId": null
+        },
+        "kogitoVariableName": "deal",
+        "specversion": "1.0",
+        "kogitoprocinstanceid": "d8e9804f-f37d-4485-8a71-2d787adee5be",
+        "kogitoprocid": "dealreviews",
+        "kogitoaddons": "infinispan-persistence"
+    }
+]

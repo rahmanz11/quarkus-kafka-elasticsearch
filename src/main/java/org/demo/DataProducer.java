@@ -16,8 +16,11 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.apache.commons.text.StringEscapeUtils;
+import org.demo.model.parent.Parent;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.eclipse.microprofile.reactive.messaging.OnOverflow;
+import org.eclipse.microprofile.reactive.messaging.OnOverflow.Strategy;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -33,7 +36,8 @@ public class DataProducer {
     
     @Inject
     @Channel("parent-out")
-    Emitter<Record<String, String>> emitter;
+    @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
+    Emitter<Record<String, Parent>> emitter;
 
     /**
      * Sends message to the "parent-out" channel
@@ -49,18 +53,10 @@ public class DataProducer {
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
         objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        String jsonString = readFile("parent-event.json", StandardCharsets.UTF_8);
-        List<Object> parentData = objectMapper.readValue(jsonString, new TypeReference<List<Object>>(){});
-        
-        /*
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        Object[] parentData = objectMapper.readValue(
-                new File(classloader.getResource("parent-event.json").getFile()),
-                new TypeReference<Object[]>(){});
-        */        
-        parentData.forEach(obj -> {
-            emitter.send(Record.of(UUID.randomUUID().toString(), StringEscapeUtils.escapeJson(obj.toString())))
+        List<Parent> parentData = objectMapper.readValue(classloader.getResourceAsStream("data/parent-event.json"), new TypeReference<List<Parent>>(){});
+        parentData.forEach(data -> {
+            emitter.send(Record.of(UUID.randomUUID().toString(), data))
                     .whenComplete((success, failure) -> {
                         if (failure != null) {
                             System.out.println("D'oh! " + failure.getMessage());
