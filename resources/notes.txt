@@ -1,0 +1,10 @@
+The parent and child in separated indexes, but the update only needs to update the parent event "variables" key
+
+The "variables" field changes a lot, it depends in what "processId" it has and many may not being defined yet, I don't know how to handle that tbh
+
+The update will take place in the variables of the "kogitoprocinstanceid", targeting the "variableName" with the "variableValue".  "kogitoprocinstanceid" and "processInstanceId" in the update event are equivalent
+
+You can safely assume that any missing value with null or array would be either a String or a String array
+
+So any null variable == string, any empty array string[]
+
