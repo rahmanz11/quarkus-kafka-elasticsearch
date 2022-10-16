@@ -46,9 +46,70 @@
       <artifactId>commons-text</artifactId>
       <version>1.10.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.24</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.jsonschema2pojo</groupId>
+        <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+        <version>1.1.2</version>
+        <executions>
+          <execution>
+              <id>1</id>
+              <configuration>
+                  <annotationStyle>jackson2</annotationStyle>
+                  <includeAdditionalProperties>false</includeAdditionalProperties>
+                  <sourcePaths>
+                      <sourcePath>${basedir}/src/main/resources/parent-event.json</sourcePath>
+                  </sourcePaths>
+                  <outputDirectory>${basedir}/src/main/java</outputDirectory>
+                  <targetPackage>org.demo.model</targetPackage>
+                  <sourceType>json</sourceType>
+              </configuration>
+              <goals>
+                  <goal>generate</goal>
+              </goals>
+          </execution>
+          <execution>
+              <id>2</id>
+              <configuration>
+                  <annotationStyle>jackson2</annotationStyle>
+                  <includeAdditionalProperties>false</includeAdditionalProperties>
+                  <sourcePaths>
+                      <sourcePath>${basedir}/src/main/resources/child-event.json</sourcePath>
+                  </sourcePaths>
+                  <outputDirectory>${basedir}/src/main/java</outputDirectory>
+                  <targetPackage>org.demo.model</targetPackage>
+                  <sourceType>json</sourceType>
+              </configuration>
+              <goals>
+                  <goal>generate</goal>
+              </goals>
+          </execution>
+          <execution>
+            <id>3</id>
+            <configuration>
+                <annotationStyle>jackson2</annotationStyle>
+                <includeAdditionalProperties>false</includeAdditionalProperties>
+                <sourcePaths>
+                    <sourcePath>${basedir}/src/main/resources/update-event.json</sourcePath>
+                </sourcePaths>
+                <outputDirectory>${basedir}/src/main/java</outputDirectory>
+                <targetPackage>org.demo.model</targetPackage>
+                <sourceType>json</sourceType>
+            </configuration>
+            <goals>
+                <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
