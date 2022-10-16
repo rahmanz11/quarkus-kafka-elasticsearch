@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletionStage;
 import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -19,6 +20,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.demo.model.parent.Parent;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow.Strategy;
 
@@ -29,6 +31,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.quarkus.runtime.StartupEvent;
+import io.smallrye.common.annotation.Blocking;
 import io.smallrye.reactive.messaging.kafka.Record;
 
 @ApplicationScoped
@@ -75,12 +78,11 @@ public class DataProducer {
         return escaped;
     }
 
-    // @Incoming("parent-in")
-    // @Blocking
-    // public CompletionStage<Void> receive(Message<String> message) {
-    //     System.out.println(message.getPayload());
-    //     //return message.withPayload(message.getPayload().toUpperCase());
-    //     return null;
-    // }
+    @Incoming("parent-in")
+    @Blocking
+    public void receive(Record<String, Parent> data) {
+        
+        System.out.println("record value: " + data.value().toString());
+    }
     
 }
