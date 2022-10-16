@@ -1,9 +1,7 @@
 package org.demo;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,8 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.apache.commons.text.StringEscapeUtils;
-import org.demo.model.parent.Parent;
+import org.demo.model.child.Child;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow;
@@ -34,15 +31,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DataProducer {
-    
+public class ChildDataProducer {
+
     @Inject
-    @Channel("parent-out")
+    @Channel("child-out")
     @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
-    Emitter<Record<String, Parent>> emitter;
+    Emitter<Record<String, Child>> childEmitter;
 
     /**
-     * Sends message to the "parent-out" channel
+     * Sends message to the "child-out" channel
      * Messages are sent to the broker.
      * @throws IOException
      * @throws DatabindException
@@ -56,24 +53,17 @@ public class DataProducer {
         objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        List<Parent> parentData = objectMapper.readValue(classloader.getResourceAsStream("data/parent-event.json"), new TypeReference<List<Parent>>(){});
-        parentData.forEach(data -> {
-            emitter.send(Record.of(UUID.randomUUID().toString(), data))
+        
+        List<Child> childData = objectMapper.readValue(classloader.getResourceAsStream("data/child-event.json"), new TypeReference<List<Child>>(){});
+        childData.forEach(data -> {
+            childEmitter.send(Record.of(UUID.randomUUID().toString(), data))
                     .whenComplete((success, failure) -> {
                         if (failure != null) {
                             System.out.println("D'oh! " + failure.getMessage());
                         } else {
-                            System.out.println("Message processed successfully");
+                            System.out.println("Child Message processed successfully");
                         }
                     });
         });
-    }
-    
-    static String readFile(String path, Charset encoding) throws IOException, URISyntaxException {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(path);
-        byte[] encoded = is.readAllBytes();
-        String escaped = StringEscapeUtils.escapeJson(new String(encoded, encoding));
-        return escaped;
-    }    
+    }   
 }

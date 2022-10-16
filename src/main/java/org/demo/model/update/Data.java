@@ -32,7 +32,7 @@ public class Data {
     @JsonProperty("variableName")
     private String variableName;
     @JsonProperty("variableValue")
-    private String variableValue;
+    private Object variableValue;
     @JsonProperty("variablePreviousValue")
     private Object variablePreviousValue;
     @JsonProperty("changeDate")
@@ -67,12 +67,12 @@ public class Data {
     }
 
     @JsonProperty("variableValue")
-    public String getVariableValue() {
+    public Object getVariableValue() {
         return variableValue;
     }
 
     @JsonProperty("variableValue")
-    public void setVariableValue(String variableValue) {
+    public void setVariableValue(Object variableValue) {
         this.variableValue = variableValue;
     }
 

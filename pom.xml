@@ -68,7 +68,6 @@
               <id>1</id>
               <configuration>
                   <annotationStyle>jackson2</annotationStyle>
-                  <includeAdditionalProperties>true</includeAdditionalProperties>
                   <inclusionLevel>ALWAYS</inclusionLevel>
                   <sourcePaths>
                       <sourcePath>${basedir}/src/main/resources/parent.json</sourcePath>
@@ -85,7 +84,6 @@
               <id>2</id>
               <configuration>
                   <annotationStyle>jackson2</annotationStyle>
-                  <includeAdditionalProperties>true</includeAdditionalProperties>
                   <inclusionLevel>ALWAYS</inclusionLevel>
                   <sourcePaths>
                       <sourcePath>${basedir}/src/main/resources/child.json</sourcePath>
@@ -102,7 +100,6 @@
             <id>3</id>
             <configuration>
                 <annotationStyle>jackson2</annotationStyle>
-                <includeAdditionalProperties>true</includeAdditionalProperties>
                 <inclusionLevel>ALWAYS</inclusionLevel>
                 <sourcePaths>
                     <sourcePath>${basedir}/src/main/resources/update.json</sourcePath>
