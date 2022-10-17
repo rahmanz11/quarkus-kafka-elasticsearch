@@ -1,9 +1,7 @@
 package org.demo;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +15,7 @@ import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow.Strategy;
+import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -24,6 +23,7 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.quarkus.arc.log.LoggerName;
 import io.quarkus.runtime.StartupEvent;
 import io.smallrye.reactive.messaging.kafka.Record;
 import lombok.Getter;
@@ -37,9 +37,13 @@ import lombok.Setter;
 public class ParentDataProducer {
     
     @Inject
-    @Channel("parent-out")
-    @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
-    Emitter<Record<String, Parent>> parentEmitter;
+    @LoggerName("updatelog")
+    Logger updateLog;
+    
+    // @Inject
+    // @Channel("parent-out")
+    // @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
+    // Emitter<Record<String, Parent>> parentEmitter;
 
     @Inject
     @Channel("update-out")
@@ -69,28 +73,30 @@ public class ParentDataProducer {
      **/
     void onStart(@Observes StartupEvent ev) throws StreamReadException, DatabindException, IOException, URISyntaxException {
                 
-        List<Parent> parentData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/parent-event.json"), new TypeReference<List<Parent>>(){});
-        parentData.forEach(data -> {
-            parentEmitter.send(Record.of(UUID.randomUUID().toString(), data))
-                    .whenComplete((success, failure) -> {
-                        if (failure != null) {
-                            System.out.println("D'oh! " + failure.getMessage());
-                        } else {
-                            System.out.println("Parent Message processed successfully");
-                        }
-                    });
-        });
+        // List<Parent> parentData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/parent-event.json"), new TypeReference<List<Parent>>(){});
+        // parentData.forEach(data -> {
+        //     parentEmitter.send(Record.of(UUID.randomUUID().toString(), data))
+        //             .whenComplete((success, failure) -> {
+        //                 if (failure != null) {
+        //                     System.out.println("D'oh! " + failure.getMessage());
+        //                 } else {
+        //                     System.out.println("Parent Message processed successfully");
+        //                 }
+        //             });
+        // });
 
         List<Update> updateData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/update-event.json"), new TypeReference<List<Update>>(){});
         updateData.forEach(data -> {
-            updateEmitter.send(Record.of(UUID.randomUUID().toString(), data))
-                    .whenComplete((success, failure) -> {
-                        if (failure != null) {
-                            System.out.println("D'oh! " + failure.getMessage());
-                        } else {
-                            System.out.println("Update Message processed successfully");
-                        }
-                    });
+            try {
+                updateEmitter.send(Record.of(UUID.randomUUID().toString(), data))
+                .whenComplete((success, failure) -> {
+                    if (failure != null) {
+                        updateLog.error("D'oh! " + failure.getMessage());
+                    }
+                });
+            } catch (Exception e) {
+                updateLog.error("D'oh! Exception!! " + e.getMessage());
+            }
         });
     }   
 }
