@@ -62,11 +62,11 @@ public class ChildDataProducer {
                 emitter.send(Record.of(data.getId(), data))
                 .whenComplete((success, failure) -> {
                     if (failure != null) {
-                        System.out.println("D'oh! " + failure.getMessage());
+                        log.errorf("Failed to publish parent data %s ", failure.getMessage());
                     }
                 });
             } catch (Exception e) {
-                log.error("Exception in publish parent data {} ", e);
+                log.errorf("Exception in publish parent data ", e.getMessage());
             }
         });
     }   

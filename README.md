@@ -62,3 +62,6 @@ Use SmallRye Reactive Messaging
 ## Consume the topic from redpanda
 
     rpk topic consume update
+
+# Create topic
+    rpk topic create -c cleanup.policy=compact -r 1 -p 1 child dead-letter-topic-child dead-letter-topic-parent dead-letter-topic-update parent update
