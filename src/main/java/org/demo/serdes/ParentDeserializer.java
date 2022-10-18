@@ -1,14 +1,11 @@
 package org.demo.serdes;
 
-import javax.inject.Inject;
-
 import org.apache.kafka.common.serialization.Deserializer;
 import org.demo.model.parent.Parent;
 import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.quarkus.arc.log.LoggerName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,9 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ParentDeserializer implements Deserializer<Parent> {
 
-    @Inject
-    @LoggerName("kpalmab")
-    Logger log;
+    Logger log = Logger.getLogger(ParentDeserializer.class, "kpalmab");
     
     private ObjectMapper objectMapper = new ObjectMapper();
     

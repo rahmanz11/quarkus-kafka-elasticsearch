@@ -14,7 +14,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class VariableValue {
 
-    String text;
+    @JsonProperty("text")
+    private String text;
     @JsonProperty("firstName")
     private String firstName;
     @JsonProperty("lastName")
@@ -25,8 +26,4 @@ public class VariableValue {
     private String nationality;
     @JsonProperty("address")
     private Address address;
-
-    public VariableValue(String text) {
-        this.text = text;
-    }
 }

@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.quarkus.arc.log.LoggerName;
 import io.quarkus.runtime.StartupEvent;
 import io.smallrye.reactive.messaging.kafka.Record;
 import lombok.Getter;
@@ -35,9 +34,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateDataProducer {
     
-    @Inject
-    @LoggerName("kpalmab")
-    Logger log;
+    Logger log = Logger.getLogger(UpdateDataProducer.class, "kpalmab");
     
     @Inject
     @Channel("update-out")
