@@ -1,26 +1,17 @@
 
 package org.demo.model.child;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.annotation.processing.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.ALWAYS)
-@JsonPropertyOrder({
-    "deal",
-    "TaskName",
-    "NodeName",
-    "Skippable",
-    "ActorId",
-    "traveller"
-})
-@Generated("jsonschema2pojo")
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Inputs {
 
     @JsonProperty("deal")
@@ -35,142 +26,5 @@ public class Inputs {
     private String actorId;
     @JsonProperty("traveller")
     private Traveller traveller;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
-
-    @JsonProperty("deal")
-    public String getDeal() {
-        return deal;
-    }
-
-    @JsonProperty("deal")
-    public void setDeal(String deal) {
-        this.deal = deal;
-    }
-
-    @JsonProperty("TaskName")
-    public String getTaskName() {
-        return taskName;
-    }
-
-    @JsonProperty("TaskName")
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
-    @JsonProperty("NodeName")
-    public String getNodeName() {
-        return nodeName;
-    }
-
-    @JsonProperty("NodeName")
-    public void setNodeName(String nodeName) {
-        this.nodeName = nodeName;
-    }
-
-    @JsonProperty("Skippable")
-    public String getSkippable() {
-        return skippable;
-    }
-
-    @JsonProperty("Skippable")
-    public void setSkippable(String skippable) {
-        this.skippable = skippable;
-    }
-
-    @JsonProperty("ActorId")
-    public String getActorId() {
-        return actorId;
-    }
-
-    @JsonProperty("ActorId")
-    public void setActorId(String actorId) {
-        this.actorId = actorId;
-    }
-
-    @JsonProperty("traveller")
-    public Traveller getTraveller() {
-        return traveller;
-    }
-
-    @JsonProperty("traveller")
-    public void setTraveller(Traveller traveller) {
-        this.traveller = traveller;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Inputs.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("deal");
-        sb.append('=');
-        sb.append(((this.deal == null)?"<null>":this.deal));
-        sb.append(',');
-        sb.append("taskName");
-        sb.append('=');
-        sb.append(((this.taskName == null)?"<null>":this.taskName));
-        sb.append(',');
-        sb.append("nodeName");
-        sb.append('=');
-        sb.append(((this.nodeName == null)?"<null>":this.nodeName));
-        sb.append(',');
-        sb.append("skippable");
-        sb.append('=');
-        sb.append(((this.skippable == null)?"<null>":this.skippable));
-        sb.append(',');
-        sb.append("actorId");
-        sb.append('=');
-        sb.append(((this.actorId == null)?"<null>":this.actorId));
-        sb.append(',');
-        sb.append("traveller");
-        sb.append('=');
-        sb.append(((this.traveller == null)?"<null>":this.traveller));
-        sb.append(',');
-        sb.append("additionalProperties");
-        sb.append('=');
-        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
-    }
-
-    @Override
-    public int hashCode() {
-        int result = 1;
-        result = ((result* 31)+((this.nodeName == null)? 0 :this.nodeName.hashCode()));
-        result = ((result* 31)+((this.deal == null)? 0 :this.deal.hashCode()));
-        result = ((result* 31)+((this.actorId == null)? 0 :this.actorId.hashCode()));
-        result = ((result* 31)+((this.taskName == null)? 0 :this.taskName.hashCode()));
-        result = ((result* 31)+((this.skippable == null)? 0 :this.skippable.hashCode()));
-        result = ((result* 31)+((this.additionalProperties == null)? 0 :this.additionalProperties.hashCode()));
-        result = ((result* 31)+((this.traveller == null)? 0 :this.traveller.hashCode()));
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-        if ((other instanceof Inputs) == false) {
-            return false;
-        }
-        Inputs rhs = ((Inputs) other);
-        return ((((((((this.nodeName == rhs.nodeName)||((this.nodeName!= null)&&this.nodeName.equals(rhs.nodeName)))&&((this.deal == rhs.deal)||((this.deal!= null)&&this.deal.equals(rhs.deal))))&&((this.actorId == rhs.actorId)||((this.actorId!= null)&&this.actorId.equals(rhs.actorId))))&&((this.taskName == rhs.taskName)||((this.taskName!= null)&&this.taskName.equals(rhs.taskName))))&&((this.skippable == rhs.skippable)||((this.skippable!= null)&&this.skippable.equals(rhs.skippable))))&&((this.additionalProperties == rhs.additionalProperties)||((this.additionalProperties!= null)&&this.additionalProperties.equals(rhs.additionalProperties))))&&((this.traveller == rhs.traveller)||((this.traveller!= null)&&this.traveller.equals(rhs.traveller))));
-    }
-
+    
 }

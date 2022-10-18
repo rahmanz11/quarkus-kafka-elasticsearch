@@ -64,61 +64,6 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.jsonschema2pojo</groupId>
-        <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-        <version>1.1.2</version>
-        <executions>
-          <execution>
-              <id>1</id>
-              <configuration>
-                  <annotationStyle>jackson2</annotationStyle>
-                  <inclusionLevel>ALWAYS</inclusionLevel>
-                  <sourcePaths>
-                      <sourcePath>${basedir}/src/main/resources/parent.json</sourcePath>
-                  </sourcePaths>
-                  <outputDirectory>${basedir}/src/main/java</outputDirectory>
-                  <targetPackage>org.demo.model.parent</targetPackage>
-                  <sourceType>json</sourceType>
-              </configuration>
-              <goals>
-                  <goal>generate</goal>
-              </goals>
-          </execution>
-          <execution>
-              <id>2</id>
-              <configuration>
-                  <annotationStyle>jackson2</annotationStyle>
-                  <inclusionLevel>ALWAYS</inclusionLevel>
-                  <sourcePaths>
-                      <sourcePath>${basedir}/src/main/resources/child.json</sourcePath>
-                  </sourcePaths>
-                  <outputDirectory>${basedir}/src/main/java</outputDirectory>
-                  <targetPackage>org.demo.model.child</targetPackage>
-                  <sourceType>json</sourceType>
-              </configuration>
-              <goals>
-                  <goal>generate</goal>
-              </goals>
-          </execution>
-          <execution>
-            <id>3</id>
-            <configuration>
-                <annotationStyle>jackson2</annotationStyle>
-                <inclusionLevel>ALWAYS</inclusionLevel>
-                <sourcePaths>
-                    <sourcePath>${basedir}/src/main/resources/update.json</sourcePath>
-                </sourcePaths>
-                <outputDirectory>${basedir}/src/main/java</outputDirectory>
-                <targetPackage>org.demo.model.update</targetPackage>
-                <sourceType>json</sourceType>
-            </configuration>
-            <goals>
-                <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
         <version>${quarkus.platform.version}</version>

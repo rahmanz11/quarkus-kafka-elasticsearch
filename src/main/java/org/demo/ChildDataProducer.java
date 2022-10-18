@@ -33,37 +33,37 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ChildDataProducer {
 
-    // @Inject
-    // @Channel("child-out")
-    // @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
-    // Emitter<Record<String, Child>> childEmitter;
+    @Inject
+    @Channel("child-out")
+    @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
+    Emitter<Record<String, Child>> childEmitter;
 
-    // /**
-    //  * Sends message to the "child-out" channel
-    //  * Messages are sent to the broker.
-    //  * @throws IOException
-    //  * @throws DatabindException
-    //  * @throws StreamReadException
-    //  * @throws URISyntaxException
-    //  **/
-    // void onStart(@Observes StartupEvent ev) throws StreamReadException, DatabindException, IOException, URISyntaxException {
+    /**
+     * Sends message to the "child-out" channel
+     * Messages are sent to the broker.
+     * @throws IOException
+     * @throws DatabindException
+     * @throws StreamReadException
+     * @throws URISyntaxException
+     **/
+    void onStart(@Observes StartupEvent ev) throws StreamReadException, DatabindException, IOException, URISyntaxException {
         
-    //     final ObjectMapper objectMapper = new ObjectMapper();
-    //     objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-    //     objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-    //     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    //     ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        final ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         
-    //     List<Child> childData = objectMapper.readValue(classloader.getResourceAsStream("data/child-event.json"), new TypeReference<List<Child>>(){});
-    //     childData.forEach(data -> {
-    //         childEmitter.send(Record.of(UUID.randomUUID().toString(), data))
-    //                 .whenComplete((success, failure) -> {
-    //                     if (failure != null) {
-    //                         System.out.println("D'oh! " + failure.getMessage());
-    //                     } else {
-    //                         System.out.println("Child Message processed successfully");
-    //                     }
-    //                 });
-    //     });
-    // }   
+        List<Child> childData = objectMapper.readValue(classloader.getResourceAsStream("data/child-event.json"), new TypeReference<List<Child>>(){});
+        childData.forEach(data -> {
+            childEmitter.send(Record.of(UUID.randomUUID().toString(), data))
+                    .whenComplete((success, failure) -> {
+                        if (failure != null) {
+                            System.out.println("D'oh! " + failure.getMessage());
+                        } else {
+                            System.out.println("Child Message processed successfully");
+                        }
+                    });
+        });
+    }   
 }

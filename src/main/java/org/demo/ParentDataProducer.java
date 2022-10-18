@@ -40,10 +40,10 @@ public class ParentDataProducer {
     @LoggerName("updatelog")
     Logger updateLog;
     
-    // @Inject
-    // @Channel("parent-out")
-    // @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
-    // Emitter<Record<String, Parent>> parentEmitter;
+    @Inject
+    @Channel("parent-out")
+    @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
+    Emitter<Record<String, Parent>> parentEmitter;
 
     @Inject
     @Channel("update-out")
@@ -73,17 +73,17 @@ public class ParentDataProducer {
      **/
     void onStart(@Observes StartupEvent ev) throws StreamReadException, DatabindException, IOException, URISyntaxException {
                 
-        // List<Parent> parentData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/parent-event.json"), new TypeReference<List<Parent>>(){});
-        // parentData.forEach(data -> {
-        //     parentEmitter.send(Record.of(UUID.randomUUID().toString(), data))
-        //             .whenComplete((success, failure) -> {
-        //                 if (failure != null) {
-        //                     System.out.println("D'oh! " + failure.getMessage());
-        //                 } else {
-        //                     System.out.println("Parent Message processed successfully");
-        //                 }
-        //             });
-        // });
+        List<Parent> parentData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/parent-event.json"), new TypeReference<List<Parent>>(){});
+        parentData.forEach(data -> {
+            parentEmitter.send(Record.of(UUID.randomUUID().toString(), data))
+                    .whenComplete((success, failure) -> {
+                        if (failure != null) {
+                            System.out.println("D'oh! " + failure.getMessage());
+                        } else {
+                            System.out.println("Parent Message processed successfully");
+                        }
+                    });
+        });
 
         List<Update> updateData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/update-event.json"), new TypeReference<List<Update>>(){});
         updateData.forEach(data -> {
