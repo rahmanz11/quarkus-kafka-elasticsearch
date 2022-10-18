@@ -13,7 +13,9 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.jboss.logging.Logger;
 
+import io.quarkus.arc.log.LoggerName;
 import io.smallrye.common.annotation.Blocking;
 import io.smallrye.reactive.messaging.kafka.Record;
 import io.vertx.core.json.JsonObject;
@@ -26,33 +28,50 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ElasticsearchService {
+
+    @Inject
+    @LoggerName("kpalmab")
+    Logger log;
+    
     @Inject
     RestHighLevelClient restHighLevelClient;
     
+    final String idxParent = "parent";
+    final String idxChild = "child";
+    final String idxUpdate = "update";
+
     @Incoming("parent-in")
     @Blocking
     public void receiveParentData(Record<String, Parent> data) throws IOException {
-        IndexRequest request = new IndexRequest("parent"); 
+        IndexRequest request = new IndexRequest(idxParent); 
         request.id(data.key());
         request.source(JsonObject.mapFrom(data.value()).toString(), XContentType.JSON); 
-        restHighLevelClient.index(request, RequestOptions.DEFAULT); 
+        index(request, idxParent);
     }
 
     @Incoming("child-in")
     @Blocking
     public void receiveChildData(Record<String, Child> data) throws IOException {
-        IndexRequest request = new IndexRequest("child"); 
+        IndexRequest request = new IndexRequest(idxChild); 
         request.id(data.key());
-        request.source(JsonObject.mapFrom(data.value()).toString(), XContentType.JSON); 
-        restHighLevelClient.index(request, RequestOptions.DEFAULT); 
+        request.source(JsonObject.mapFrom(data.value()).toString(), XContentType.JSON);
+        index(request, idxChild);
     }
         
     @Incoming("update-in")
     @Blocking
     public void receiveUpdateData(Record<String, Update> data) throws IOException {
-        IndexRequest request = new IndexRequest("update");
+        IndexRequest request = new IndexRequest(idxUpdate);
         request.id(data.key());
         request.source(JsonObject.mapFrom(data.value()).toString(), XContentType.JSON); 
-        restHighLevelClient.index(request, RequestOptions.DEFAULT); 
+        index(request, idxUpdate);
+    }
+
+    private void index(IndexRequest request, String indexName) {
+        try {
+            restHighLevelClient.index(request, RequestOptions.DEFAULT);  
+        } catch (Exception e) {
+            log.error("Unable to index {} data {}", indexName, e);
+        }
     }
 }

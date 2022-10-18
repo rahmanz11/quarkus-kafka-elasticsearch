@@ -60,8 +60,6 @@ public class ChildDataProducer {
                     .whenComplete((success, failure) -> {
                         if (failure != null) {
                             System.out.println("D'oh! " + failure.getMessage());
-                        } else {
-                            System.out.println("Child Message processed successfully");
                         }
                     });
         });

@@ -1,10 +1,14 @@
 package org.demo.serdes;
 
+import javax.inject.Inject;
+
 import org.apache.kafka.common.serialization.Deserializer;
 import org.demo.model.update.Update;
+import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.quarkus.arc.log.LoggerName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +17,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UpdateDeserializer implements Deserializer<Update> {
-
+    
+    @Inject
+    @LoggerName("kpalmab")
+    Logger log;
+    
     private ObjectMapper objectMapper = new ObjectMapper();
     
     @Override
@@ -21,7 +29,7 @@ public class UpdateDeserializer implements Deserializer<Update> {
         try {
             return objectMapper.readValue(new String(data, "UTF-8"), Update.class);
         } catch (Exception e) {
-            System.err.printf("Unable to deserialize update message {}", data, e);
+            log.error("Unable to deserialize update message {} {}", data, e);
             return null;
         }
     }

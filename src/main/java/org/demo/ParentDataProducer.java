@@ -37,8 +37,8 @@ import lombok.Setter;
 public class ParentDataProducer {
     
     @Inject
-    @LoggerName("updatelog")
-    Logger updateLog;
+    @LoggerName("kpalmab")
+    Logger log;
     
     @Inject
     @Channel("parent-out")
@@ -75,14 +75,16 @@ public class ParentDataProducer {
                 
         List<Parent> parentData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/parent-event.json"), new TypeReference<List<Parent>>(){});
         parentData.forEach(data -> {
-            parentEmitter.send(Record.of(UUID.randomUUID().toString(), data))
-                    .whenComplete((success, failure) -> {
-                        if (failure != null) {
-                            System.out.println("D'oh! " + failure.getMessage());
-                        } else {
-                            System.out.println("Parent Message processed successfully");
-                        }
-                    });
+            try {
+                parentEmitter.send(Record.of(UUID.randomUUID().toString(), data))
+                .whenComplete((success, failure) -> {
+                    if (failure != null) {
+                        log.error("Failed to publish parent data {} ", failure);
+                    }
+                });
+            } catch (Exception e) {
+                log.error("Exception in publish parent data {} ", e);
+            }
         });
 
         List<Update> updateData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/update-event.json"), new TypeReference<List<Update>>(){});
@@ -91,11 +93,11 @@ public class ParentDataProducer {
                 updateEmitter.send(Record.of(UUID.randomUUID().toString(), data))
                 .whenComplete((success, failure) -> {
                     if (failure != null) {
-                        updateLog.error("D'oh! " + failure.getMessage());
+                        log.error("Failed to publish update data {} ", failure);
                     }
                 });
             } catch (Exception e) {
-                updateLog.error("D'oh! Exception!! " + e.getMessage());
+                log.error("Exception in publish update data {} ", e);
             }
         });
     }   
