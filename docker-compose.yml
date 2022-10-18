@@ -52,7 +52,12 @@ services:
       - data01:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-  
+    healthcheck:
+      test: curl -s -f elasticsearch:9200/_cat/health >/dev/null || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.17.6
@@ -62,7 +67,32 @@ services:
     ports:
       - 5601:5601
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
+
+  quarkus-app:
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.jvm
+    image: kpalmab/quarkus-elasticsearch-kafka:native
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      - mp.messaging.outgoing.update-out.bootstrap.servers=redpanda:29092
+      - mp.messaging.incoming.update-in.bootstrap.servers=redpanda:29092
+      - mp.messaging.outgoing.child-out.bootstrap.servers=redpanda:29092
+      - mp.messaging.incoming.child-in.bootstrap.servers=redpanda:29092
+      - mp.messaging.outgoing.parent-out.bootstrap.servers=redpanda:29092
+      - mp.messaging.incoming.parent-in.bootstrap.servers=redpanda:29092
+      - kafka.bootstrap.servers=redpanda:29092
+      - quarkus.elasticsearch.hosts=elasticsearch:9200
+    depends_on:
+      redpanda:
+        condition: service_started
+      elasticsearch:
+        condition: service_healthy
+
 volumes:
   data01:
     driver: local
