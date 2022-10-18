@@ -1,10 +1,8 @@
-package org.demo;
+package org.demo.producer;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.UUID;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -77,5 +75,5 @@ public class ParentDataProducer {
                 log.error("Exception in publish parent data {} ", e);
             }
         });
-    }   
+    }
 }

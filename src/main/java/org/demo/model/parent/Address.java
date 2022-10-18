@@ -22,4 +22,11 @@ public class Address {
     private String zipCode;
     @JsonProperty("country")
     private String country;
+
+    public Address(org.demo.model.update.Address address) {
+        this.street = address.getStreet();
+        this.city = address.getCity();
+        this.zipCode = address.getZipCode();
+        this.country = address.getCountry();
+    }
 }

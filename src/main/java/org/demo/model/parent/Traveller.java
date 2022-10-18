@@ -1,6 +1,8 @@
 
 package org.demo.model.parent;
 
+import org.demo.model.update.VariableValue;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -14,6 +16,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Traveller {
 
+    @JsonProperty("text")
+    private String text;
     @JsonProperty("firstName")
     private String firstName;
     @JsonProperty("lastName")
@@ -25,4 +29,12 @@ public class Traveller {
     @JsonProperty("address")
     private Address address;
 
+    public Traveller(VariableValue val) {
+        this.text = val.getText();
+        this.firstName = val.getFirstName();
+        this.lastName = val.getLastName();
+        this.email = val.getEmail();
+        this.nationality = val.getNationality();
+        this.address = new Address(val.getAddress());
+    }
 }

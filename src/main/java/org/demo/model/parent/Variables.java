@@ -1,6 +1,8 @@
 
 package org.demo.model.parent;
 
+import org.demo.model.update.VariableValue;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -16,4 +18,7 @@ public class Variables {
     private Traveller traveller;
     @JsonProperty("review")
     private String review;
+    public void setTraveller(VariableValue val) {
+        this.traveller = new Traveller(val);
+    }
 }
