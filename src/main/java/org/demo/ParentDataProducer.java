@@ -10,7 +10,6 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.demo.model.parent.Parent;
-import org.demo.model.update.Update;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow;
@@ -43,12 +42,7 @@ public class ParentDataProducer {
     @Inject
     @Channel("parent-out")
     @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
-    Emitter<Record<String, Parent>> parentEmitter;
-
-    @Inject
-    @Channel("update-out")
-    @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
-    Emitter<Record<String, Update>> updateEmitter;
+    Emitter<Record<String, Parent>> emitter;
 
     private ObjectMapper getObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -64,7 +58,7 @@ public class ParentDataProducer {
     }
 
     /**
-     * Sends message to the "parent-out" and "update-out" channel
+     * Sends message to the "parent-out" channel
      * Messages are sent to the broker.
      * @throws IOException
      * @throws DatabindException
@@ -76,7 +70,7 @@ public class ParentDataProducer {
         List<Parent> parentData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/parent-event.json"), new TypeReference<List<Parent>>(){});
         parentData.forEach(data -> {
             try {
-                parentEmitter.send(Record.of(UUID.randomUUID().toString(), data))
+                emitter.send(Record.of(UUID.randomUUID().toString(), data))
                 .whenComplete((success, failure) -> {
                     if (failure != null) {
                         log.error("Failed to publish parent data {} ", failure);
@@ -84,20 +78,6 @@ public class ParentDataProducer {
                 });
             } catch (Exception e) {
                 log.error("Exception in publish parent data {} ", e);
-            }
-        });
-
-        List<Update> updateData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/update-event.json"), new TypeReference<List<Update>>(){});
-        updateData.forEach(data -> {
-            try {
-                updateEmitter.send(Record.of(UUID.randomUUID().toString(), data))
-                .whenComplete((success, failure) -> {
-                    if (failure != null) {
-                        log.error("Failed to publish update data {} ", failure);
-                    }
-                });
-            } catch (Exception e) {
-                log.error("Exception in publish update data {} ", e);
             }
         });
     }   
