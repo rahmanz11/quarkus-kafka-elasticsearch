@@ -51,11 +51,12 @@ public class ConsumerService {
     
         try {
             es.index(request, idxParent);
+            return data.ack();
         } catch (Exception e) {
-            return data.nack(e);
+            log.errorf("exception in parent index '%s'", e.getMessage());
         }
 
-        return data.ack();
+        return null;
     }
 
     /**
@@ -78,12 +79,16 @@ public class ConsumerService {
             try {
                 es.index(request, idxChild);
             } catch (Exception e) {
-                return message.nack(e);
+                log.errorf("exception in child index '%s'", e.getMessage());
+                return null;
             }
             return message.ack();
-        } 
-    
-        return message.nack(new Throwable("Child insert aborted! Parent missing"));
+        } else {
+            log.errorf("parent not available for child kogitoprocinstanceid '%s'", data.getKogitoprocinstanceid());
+        }
+        
+        log.errorf("Child aborted! Parent missing");
+        return null;
     }
     
     /**
@@ -97,6 +102,7 @@ public class ConsumerService {
         
         Update data = message.getPayload();
         List<Parent> parents = es.searchParent("kogitoprocinstanceid", data.getKogitoprocinstanceid());
+        // Check if parent exists
         if (parents != null && parents.size() > 0) {
             parents.stream().forEachOrdered(d -> {
                 IndexRequest request = new IndexRequest(idxParent);
@@ -121,14 +127,18 @@ public class ConsumerService {
                 try {
                     es.index(request, idxParent);
                 } catch (IOException e) {
+                    log.errorf("exception in parent index at update kogitoprocinstanceid '%s' --- '%s'", data.getKogitoprocinstanceid(), e.getMessage());
                     return;
                 }
             });
 
             return message.ack();
+        } else {
+            log.errorf("parent not available for update kogitoprocinstanceid '%s'", data.getKogitoprocinstanceid());
         }
         
-        return message.nack(new Throwable("Update aborted! Parent missing"));
+        log.errorf("Update aborted! Parent missing");
+        return null;
     }
 
 }
