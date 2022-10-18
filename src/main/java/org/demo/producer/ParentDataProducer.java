@@ -67,7 +67,7 @@ public class ParentDataProducer {
         List<Parent> parentData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/parent-event.json"), new TypeReference<List<Parent>>(){});
         parentData.forEach(data -> {
             try {
-                emitter.send(Record.of(UUID.randomUUID().toString(), data))
+                emitter.send(Record.of(data.getId(), data))
                 .whenComplete((success, failure) -> {
                     if (failure != null) {
                         log.error("Failed to publish parent data {} ", failure);

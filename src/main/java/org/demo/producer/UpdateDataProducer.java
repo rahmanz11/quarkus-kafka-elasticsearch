@@ -9,7 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.demo.model.child.Child;
+import org.demo.model.update.Update;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow;
@@ -32,17 +32,30 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ChildDataProducer {
-
-    Logger log = Logger.getLogger(ChildDataProducer.class, "kpalmab");
+public class UpdateDataProducer {
+    
+    Logger log = Logger.getLogger(UpdateDataProducer.class, "kpalmab");
     
     @Inject
-    @Channel("child-out")
+    @Channel("update-out")
     @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
-    Emitter<Record<String, Child>> emitter;
+    Emitter<Record<String, Update>> emitter;
+
+    private ObjectMapper getObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return objectMapper;
+    }
+
+    private ClassLoader getClassLoader() {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        return classloader;
+    }
 
     /**
-     * Sends message to the "child-out" channel
+     * Sends message to the "update-out" channel
      * Messages are sent to the broker.
      * @throws IOException
      * @throws DatabindException
@@ -50,25 +63,17 @@ public class ChildDataProducer {
      * @throws URISyntaxException
      **/
     void onStart(@Observes StartupEvent ev) throws StreamReadException, DatabindException, IOException, URISyntaxException {
-        
-        final ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-        objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        
-        List<Child> childData = objectMapper.readValue(classloader.getResourceAsStream("data/child-event.json"), new TypeReference<List<Child>>(){});
-        childData.forEach(data -> {
+        List<Update> updateData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/update-event.json"), new TypeReference<List<Update>>(){});
+        updateData.forEach(data -> {
             try {
-                emitter.send(Record.of(UUID.randomUUID().toString(), data))
+                emitter.send(Record.of(data.getId(), data))
                 .whenComplete((success, failure) -> {
                     if (failure != null) {
-                        System.out.println("D'oh! " + failure.getMessage());
+                        log.error("Failed to publish update data {} ", failure);
                     }
                 });
             } catch (Exception e) {
-                log.error("Exception in publish parent data {} ", e);
+                log.error("Exception in publish update data {} ", e);
             }
         });
     }   

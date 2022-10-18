@@ -1,4 +1,4 @@
-package org.demo;
+package org.demo.elasticsearch;
 
 import java.io.IOException;
 
