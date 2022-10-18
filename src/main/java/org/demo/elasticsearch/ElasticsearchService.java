@@ -94,6 +94,7 @@ public class ElasticsearchService {
 
         Child data = message.getPayload();
         List<Parent> parents = this.searchParent("kogitoprocinstanceid", data.getKogitoprocinstanceid());
+        // Check if parent exists
         if (parents != null && parents.size() > 0) {
             IndexRequest request = new IndexRequest(idxChild); 
             request.id(data.getId());
@@ -101,9 +102,9 @@ public class ElasticsearchService {
             index(request, idxParent);
     
             return message.ack();
-        }
-
-        return null;
+        } 
+    
+        return message.nack(new Throwable("Child insert aborted! Parent missing"));
     }
     
     /**
@@ -124,10 +125,8 @@ public class ElasticsearchService {
                 
                 // Do this to handle different types of value of VariableValue
                 if (data.getData().getVariableValue().getLastName() != null) {
-                    log.error("Parent matched from update {} {}", " parent id I " + d.getId(), null);
                     d.getData().getVariables().setTraveller(data.getData().getVariableValue());
                 } else {
-                    log.error("Parent matched from update {} {}", " parent id II " + d.getId(), null);
                     d.getData().getVariables().getTraveller().setText(data.getData().getVariableValue().getFirstName());
                     d.getData().getVariables().getTraveller().setFirstName(data.getData().getVariableValue().getText());
                     d.getData().getVariables().getTraveller().setLastName(data.getData().getVariableValue().getLastName());
@@ -145,7 +144,6 @@ public class ElasticsearchService {
                         this.createIndex(idxParent);
                     }
                 } catch (IOException e) {
-                    log.error("parent index check failed: {}", e);
                 }
                 
                 index(request, idxParent);
@@ -153,10 +151,9 @@ public class ElasticsearchService {
 
             return message.ack();
         
-        } else {
-            log.error("Parent not found for: {}", "parent id III " + data.getKogitoprocinstanceid(), null);
         }
-        return null;
+        
+        return message.nack(new Throwable("Update aborted! Parent missing"));
     }
 
     /**
@@ -168,7 +165,6 @@ public class ElasticsearchService {
         try {
             restHighLevelClient.index(request, RequestOptions.DEFAULT);  
         } catch (Exception e) {
-            log.error("Unable to index {} data {}", indexName, e);
         }
     }
 
@@ -190,7 +186,6 @@ public class ElasticsearchService {
                 results.add(json.mapTo(Parent.class));
             }
         } catch (Exception e) {
-            log.error("exception in elasticsearch search {}", e);    
         }
 
         return results;
