@@ -34,48 +34,48 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ParentDataProducer {
     
-    // Logger log = Logger.getLogger(ParentDataProducer.class, "kpalmab");
+    Logger log = Logger.getLogger(ParentDataProducer.class, "kpalmab");
     
-    // @Inject
-    // @Channel("parent-out")
-    // @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
-    // Emitter<Record<String, Parent>> emitter;
+    @Inject
+    @Channel("parent-out")
+    @OnOverflow(value = Strategy.UNBOUNDED_BUFFER)
+    Emitter<Record<String, Parent>> emitter;
 
-    // private ObjectMapper getObjectMapper() {
-    //     ObjectMapper objectMapper = new ObjectMapper();
-    //     objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-    //     objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-    //     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    //     return objectMapper;
-    // }
+    private ObjectMapper getObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return objectMapper;
+    }
 
-    // private ClassLoader getClassLoader() {
-    //     ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-    //     return classloader;
-    // }
+    private ClassLoader getClassLoader() {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        return classloader;
+    }
 
-    // /**
-    //  * Sends message to the "parent-out" channel
-    //  * Messages are sent to the broker.
-    //  * @throws IOException
-    //  * @throws DatabindException
-    //  * @throws StreamReadException
-    //  * @throws URISyntaxException
-    //  **/
-    // void onStart(@Observes StartupEvent ev) throws StreamReadException, DatabindException, IOException, URISyntaxException {
+    /**
+     * Sends message to the "parent-out" channel
+     * Messages are sent to the broker.
+     * @throws IOException
+     * @throws DatabindException
+     * @throws StreamReadException
+     * @throws URISyntaxException
+     **/
+    void onStart(@Observes StartupEvent ev) throws StreamReadException, DatabindException, IOException, URISyntaxException {
                 
-    //     List<Parent> parentData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/parent-event.json"), new TypeReference<List<Parent>>(){});
-    //     parentData.forEach(data -> {
-    //         try {
-    //             emitter.send(Record.of(UUID.randomUUID().toString(), data))
-    //             .whenComplete((success, failure) -> {
-    //                 if (failure != null) {
-    //                     log.error("Failed to publish parent data {} ", failure);
-    //                 }
-    //             });
-    //         } catch (Exception e) {
-    //             log.error("Exception in publish parent data {} ", e);
-    //         }
-    //     });
-    // }   
+        List<Parent> parentData = getObjectMapper().readValue(getClassLoader().getResourceAsStream("data/parent-event.json"), new TypeReference<List<Parent>>(){});
+        parentData.forEach(data -> {
+            try {
+                emitter.send(Record.of(UUID.randomUUID().toString(), data))
+                .whenComplete((success, failure) -> {
+                    if (failure != null) {
+                        log.error("Failed to publish parent data {} ", failure);
+                    }
+                });
+            } catch (Exception e) {
+                log.error("Exception in publish parent data {} ", e);
+            }
+        });
+    }   
 }

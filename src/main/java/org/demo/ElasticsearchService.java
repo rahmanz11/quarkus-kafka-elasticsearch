@@ -42,28 +42,28 @@ public class ElasticsearchService {
      * @param data Parent data
      * @throws IOException
      */
-    // @Incoming("parent-in")
-    // @Blocking
-    // public void receiveParentData(Record<String, Parent> data) throws IOException {
-    //     IndexRequest request = new IndexRequest(idxParent); 
-    //     request.id(data.key());
-    //     request.source(JsonObject.mapFrom(data.value()).toString(), XContentType.JSON); 
-    //     index(request, idxParent);
-    // }
+    @Incoming("parent-in")
+    @Blocking
+    public void receiveParentData(Record<String, Parent> data) throws IOException {
+        IndexRequest request = new IndexRequest(idxParent); 
+        request.id(data.key());
+        request.source(JsonObject.mapFrom(data.value()).toString(), XContentType.JSON); 
+        index(request, idxParent);
+    }
 
-    // /**
-    //  * Consume Child data from redpanda
-    //  * @param data Child data
-    //  * @throws IOException
-    //  */
-    // @Incoming("child-in")
-    // @Blocking
-    // public void receiveChildData(Record<String, Child> data) throws IOException {
-    //     IndexRequest request = new IndexRequest(idxChild); 
-    //     request.id(data.key());
-    //     request.source(JsonObject.mapFrom(data.value()).toString(), XContentType.JSON);
-    //     index(request, idxChild);
-    // }
+    /**
+     * Consume Child data from redpanda
+     * @param data Child data
+     * @throws IOException
+     */
+    @Incoming("child-in")
+    @Blocking
+    public void receiveChildData(Record<String, Child> data) throws IOException {
+        IndexRequest request = new IndexRequest(idxChild); 
+        request.id(data.key());
+        request.source(JsonObject.mapFrom(data.value()).toString(), XContentType.JSON);
+        index(request, idxChild);
+    }
     
     /**
      * Consume Update data from redpanda
